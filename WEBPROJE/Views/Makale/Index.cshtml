@@ -6,65 +6,65 @@
 }
 @helper Truncate(string input, int length)
 {
-if (input.Length <= length)
-{
+    if (input.Length <= length)
+    {
         @input
-}
-else
-{
+    }
+    else
+    {
         @input.Substring(0, length)<text>...</text>
     }
 }
-    <h2>Tüm Makaleler</h2>
+<h2>Tüm Makaleler</h2>
 
-   
-    <table class="table">
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Kategori.KategoriAd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kullanici.KullaniciAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Baslik)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.İcerik)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MakaleTarihi)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Kategori.KategoriAd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Kullanici.KullaniciAdi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Baslik)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.İcerik)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MakaleTarihi)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategori.KategoriAd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kullanici.KullaniciAdi)
+            </td>
+            <td>
+                @Truncate(item.Baslik, 15)
+            </td>
+            <td>
+                @Truncate(item.İcerik, 45)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MakaleTarihi)
+            </td>
+            <td>
+                @if (item.Kullanici.KullaniciAdi == Session["username"].ToString())
+                {
+                    @Html.ActionLink("Güncelle", "Edit", new { id = item.id })
+                    @Html.ActionLink("Sil", "Details", new { id = item.id })
+                }
+                @Html.ActionLink("İncele", "Delete", new { id = item.id })
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Kategori.KategoriAd)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Kullanici.KullaniciAdi)
-                </td>
-                <td>
-                    @Truncate(item.Baslik, 15)
-                </td>
-                <td>
-                    @Truncate(item.İcerik, 45)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MakaleTarihi)
-                </td>
-                <td>
-                    @if (item.Kullanici.KullaniciAdi == Session["username"].ToString())
-                    {
-                    @Html.ActionLink("Güncelle", "Edit", new { id = item.id }) 
-                    @Html.ActionLink("Sil", "Details", new { id = item.id }) 
-                    }
-                    @Html.ActionLink("İncele", "Delete", new { id = item.id })
-                </td>
-            </tr>
-        }
-
-    </table>
+</table>

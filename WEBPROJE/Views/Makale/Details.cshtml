@@ -27,19 +27,41 @@
         <dd>
             @Html.DisplayFor(model => model.İcerik)
         </dd>
-        
+
 
 
     </dl>
 </div>
 @if (Model.Kullanici.KullaniciAdi == Session["username"].ToString())
 {
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Etiket Ekle", "Edit", new { id = Model.id })
-</p>
-   
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Etiket Ekle", "Edit", new { id = Model.id })
+    </p>
+
 }
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div>
+    <textarea type="Text" id="yorum"></textarea>
+    <br />
+    <button type="button" class="btn btn-info"id="YorumYap"></button>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#Yorumyap").click(function () {
+                var yorumunuz = $("#yorum").val();
+                S.ajax({
+                    url: '/Makale/YorumYap/',
+                    data: { yorum: yorumunuz, MakaleId:@Model.id},
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert("Başarı");
+                    }
+                });
+            });
+    })
+        
+    </script>
+    
+    }

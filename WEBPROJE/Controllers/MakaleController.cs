@@ -11,7 +11,7 @@ namespace WEBPROJE.Controllers
     public class MakaleController : YetkiliController
     {
         WebDB db = new WebDB();
-        
+
         // GET: Makale
         public ActionResult Index()
         {
@@ -117,6 +117,15 @@ namespace WEBPROJE.Controllers
             {
                 return View();
             }
+        }
+        public JsonResult YorumYap(string yorum,int MakaleId)
+        {
+            var kullaniciadi = Session["username"].ToString();
+            var kullanici = db.Kullanicis.Where(i => i.KullaniciAdi == kullaniciadi).SingleOrDefault();
+
+            db.Yorums.Add(new Yorum { KullaniciId=kullanici.id,MakaleId=MakaleId,Yorumİcerik=yorum});
+            db.SaveChanges();
+            return Json(false,JsonRequestBehavior.AllowGet);
         }
     }
 }
