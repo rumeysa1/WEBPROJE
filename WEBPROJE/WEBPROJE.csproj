@@ -155,6 +155,9 @@
     <Content Include="Views\Makale\Create.cshtml" />
     <Content Include="Views\Kullanici\Edit.cshtml" />
     <Content Include="Views\Makale\KisiMakaleListesi.cshtml" />
+    <Content Include="Views\Makale\Details.cshtml" />
+    <Content Include="Views\Makale\Edit.cshtml" />
+    <Content Include="Views\Makale\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

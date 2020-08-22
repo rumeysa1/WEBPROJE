@@ -16,8 +16,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    </button>
-                @Html.ActionLink("Benim Blogum", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </button>
+                @if (Session["username"] == null)
+                {
+                    @Html.ActionLink("Benim Blogum", "Index", "hOME", new { area = "" }, new { @class = "navbar-brand" })
+
+                }
+                else
+                {
+                    @Html.ActionLink("Benim Blogum", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Makaleler", "Index", "Makale", new { area = "" }, new { @class = "navbar-brand" })
+
+                }
             </div>
             <div class="navbar-collapse collapse navbar-right">
                 @if (Session["username"] == null)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,16 +11,19 @@ namespace WEBPROJE.Controllers
     public class MakaleController : YetkiliController
     {
         WebDB db = new WebDB();
+        
         // GET: Makale
         public ActionResult Index()
         {
-            return View();
+            var makaleler = db.Makales.ToList();
+            return View(makaleler);
         }
 
         // GET: Makale/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var makale = db.Makales.Where(i => i.id == id).SingleOrDefault();
+            return View(makale);
         }
         public ActionResult KisiMakaleListesi()
         {
@@ -59,22 +63,37 @@ namespace WEBPROJE.Controllers
         // GET: Makale/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            string kullaniciadi = Session["username"].ToString();
+            var makale = db.Makales.Where(i => i.id == id).SingleOrDefault();
+            if (makale == null)
+            {
+                return HttpNotFound();
+            }
+            if (makale.Kullanici.KullaniciAdi == kullaniciadi)
+            {
+                ViewBag.KategoriId = new SelectList(db.Kategoris, "KategoriId", "KategoriAd");
+                return View(makale);
+
+            }
+            return HttpNotFound();
         }
 
         // POST: Makale/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Makale model)
         {
             try
             {
-                // TODO: Add update logic here
-
+                var makale = db.Makales.Where(i => i.id == id).SingleOrDefault();
+                makale.Baslik = model.Baslik;
+                makale.İcerik = model.İcerik;
+                makale.KategoriId = model.KategoriId;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

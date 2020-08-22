@@ -1,0 +1,45 @@
+﻿@model WEBPROJE.Models.Makale
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-danger text-center">@Model.Baslik</h2>
+
+<div>
+    <h4>@Model.Kullanici.KullaniciAdi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Kategori.KategoriAd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kategori.KategoriAd)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.İcerik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.İcerik)
+        </dd>
+        
+
+
+    </dl>
+</div>
+@if (Model.Kullanici.KullaniciAdi == Session["username"].ToString())
+{
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Etiket Ekle", "Edit", new { id = Model.id })
+</p>
+   
+}
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -31,7 +31,7 @@ namespace WEBPROJE.Controllers
                 }
                 if (varmi.Sifre == model.Sifre)
                 {
-                    Session["username"] = model.KullaniciAdi;
+                    Session["username"] = varmi.KullaniciAdi;
                     return RedirectToAction("Index","Kullanici");
                 }
                 else
