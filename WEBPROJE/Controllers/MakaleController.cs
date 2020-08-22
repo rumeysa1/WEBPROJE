@@ -7,7 +7,7 @@ using WEBPROJE.Models;
 
 namespace WEBPROJE.Controllers
 {
-    public class MakaleController : Controller
+    public class MakaleController : YetkiliController
     {
         WebDB db = new WebDB();
         // GET: Makale
@@ -20,6 +20,12 @@ namespace WEBPROJE.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+        public ActionResult KisiMakaleListesi()
+        {
+            var kullaniciadi = Session["username"].ToString();
+            var makaleler = db.Kullanicis.Where(a => a.KullaniciAdi == kullaniciadi).SingleOrDefault().Makales.ToList();
+            return View(makaleler);
         }
 
         // GET: Makale/Create

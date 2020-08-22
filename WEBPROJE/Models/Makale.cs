@@ -19,11 +19,9 @@ namespace WEBPROJE.Models
         public int id { get; set; }
 
         [Required]
-        [StringLength(10)]
         public string Baslik { get; set; }
 
         [Required]
-        [StringLength(500)]
         public string İcerik { get; set; }
 
         public DateTime MakaleTarihi { get; set; }

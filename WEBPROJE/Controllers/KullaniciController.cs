@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WEBPROJE.Helpers;
 using WEBPROJE.Models;
 
 namespace WEBPROJE.Controllers
 {
-    public class KullaniciController : Controller
+    public class KullaniciController : YetkiliController
     {
         WebDB db = new WebDB();
         // GET: Kullanici
@@ -15,8 +16,7 @@ namespace WEBPROJE.Controllers
         {
             string kullaniciadi = Session["username"].ToString();
             var kullanici = db.Kullanicis.Where(i => i.KullaniciAdi == kullaniciadi).SingleOrDefault();
-            ViewBag.deneme = kullanici.isim;
-            return View();
+            return View(kullanici);
         }
 
         // GET: Kullanici/Details/5
@@ -31,71 +31,7 @@ namespace WEBPROJE.Controllers
             var kisi = db.Kullanicis.Where(i => i.KullaniciAdi == kullanciadi).SingleOrDefault();
             return View(kisi);
         }
-        public ActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Login(Kullanici model)
-        {
-            try
-            {
-                var varmi = db.Kullanicis.Where(i => i.KullaniciAdi == model.KullaniciAdi).SingleOrDefault();
-                if (varmi == null)
-                {
-                    return View();
-                }
-                if (varmi.Sifre == model.Sifre)
-                {
-                    Session["username"] = model.KullaniciAdi;
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-                return View();
-            }
-
-        }
-        // GET: Kullanici/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Kullanici/Create
-        [HttpPost]
-        public ActionResult Create(Kullanici model)
-        {
-            try
-            {
-
-                var varmi = db.Kullanicis.Where(i => i.KullaniciAdi == model.KullaniciAdi).SingleOrDefault();
-                if (varmi != null)
-                {
-                    return View();
-                }
-
-                if (string.IsNullOrEmpty(model.Sifre))
-                {
-                    return View();
-                }
-                model.Tarih = DateTime.Now;
-                model.YetkiId = 1;
-                db.Kullanicis.Add(model);
-                db.SaveChanges();
-                Session["username"] = model.KullaniciAdi;
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
         public ActionResult Logout()
         {
             Session["username"] = null;
@@ -107,16 +43,10 @@ namespace WEBPROJE.Controllers
         {
             string kullaniciadi = Session["username"].ToString();
             var user = db.Kullanicis.Where(i => i.KullaniciAdi == kullaniciadi).SingleOrDefault();
-
-            if(user.id==id)
+            if(OratkSinif.EditIzinYetkiVarmi(id,user))
               {
-                return View(user);
-                
-
-            }
-            else if(user.YetkiId > 3)
-            {
                 var kisi = db.Kullanicis.Where(i => i.id == id).SingleOrDefault();
+
                 return View(kisi);
             }
             return HttpNotFound();
