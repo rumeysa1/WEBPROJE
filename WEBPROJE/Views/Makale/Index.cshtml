@@ -40,31 +40,33 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kategori.KategoriAd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kullanici.KullaniciAdi)
-            </td>
-            <td>
-                @Truncate(item.Baslik, 15)
-            </td>
-            <td>
-                @Truncate(item.İcerik, 45)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MakaleTarihi)
-            </td>
-            <td>
-                @if (item.Kullanici.KullaniciAdi == Session["username"].ToString())
-                {
-                    @Html.ActionLink("Güncelle", "Edit", new { id = item.id })
-                    @Html.ActionLink("Sil", "Details", new { id = item.id })
-                }
-                @Html.ActionLink("İncele", "Delete", new { id = item.id })
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Kategori.KategoriAd)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Kullanici.KullaniciAdi)
+    </td>
+    <td>
+        @Truncate(item.Baslik, 15)
+    </td>
+    <td>
+        @Truncate(item.İcerik, 45)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MakaleTarihi)
+    </td>
+    <td>
+        @if (item.Kullanici.KullaniciAdi == Session["username"].ToString())
+        {
+            @Html.ActionLink("Güncelle", "Edit", new { id = item.id }) 
+            @Html.ActionLink("Sil", "Delete", new { id = item.id })
+
+        }
+    </td>
+    @Html.ActionLink("İncele", "Details", new { id = item.id })
+
+</tr>
     }
 
 </table>

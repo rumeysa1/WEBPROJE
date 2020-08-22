@@ -17,5 +17,10 @@ namespace WEBPROJE.Controllers
             }
             base.OnActionExecuting(filterContext);
         }
+        public ActionResult Hata(string yazilacak)
+        {
+            ViewBag.yaz = yazilacak;
+            return View(yazilacak);
+        }
     }
 }

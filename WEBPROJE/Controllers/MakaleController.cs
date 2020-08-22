@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WEBPROJE.Helpers;
 using WEBPROJE.Models;
 
 namespace WEBPROJE.Controllers
@@ -122,10 +123,36 @@ namespace WEBPROJE.Controllers
         {
             var kullaniciadi = Session["username"].ToString();
             var kullanici = db.Kullanicis.Where(i => i.KullaniciAdi == kullaniciadi).SingleOrDefault();
-
+            if (yorum == "")
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
             db.Yorums.Add(new Yorum { KullaniciId=kullanici.id,MakaleId=MakaleId,Yorumİcerik=yorum});
             db.SaveChanges();
             return Json(false,JsonRequestBehavior.AllowGet);
         }
+        public ActionResult YorumDelete(int id)
+        {
+            
+            var kullaniciadi = Session["username"].ToString();
+            var kullanici = db.Kullanicis.Where(i => i.KullaniciAdi == kullaniciadi).SingleOrDefault();
+            var yorum = db.Yorums.Where(i => i.id == id).SingleOrDefault();
+            if (yorum == null)
+            {
+                return RedirectToAction("Hata", "Yetkili", new { yazilacak = "Yorum Bulunamadı!" });
+
+
+            }
+            if (OratkSinif.DeleteIzinYetkiVarmi(id, kullanici))
+            {
+                db.Yorums.Remove(yorum);
+                db.SaveChanges();
+                return RedirectToAction("Detail", "Yetkili", new { id = yorum.MakaleId });
+
+            }
+            return RedirectToAction("Hata", "Yetkili", new { yazilacak="Yorum Silinemedi!" });
+
+        }
+
     }
 }

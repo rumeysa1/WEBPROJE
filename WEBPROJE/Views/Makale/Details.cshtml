@@ -43,8 +43,10 @@
 <div>
     <textarea type="Text" id="yorum"></textarea>
     <br />
-    <button type="button" class="btn btn-info"id="YorumYap"></button>
+    <button type="button" class="btn btn-info"id="YorumYap">Yorum Yap</button>
 </div>
+@Html.Partial("YorumListele", Model.Yorums.ToList())
+
 @section scripts{
     <script type="text/javascript">
         $(function () {
@@ -60,8 +62,9 @@
                     }
                 });
             });
-    })
-        
+
+        })
+       
     </script>
     
     }
