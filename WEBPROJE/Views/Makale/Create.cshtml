@@ -38,6 +38,12 @@
                 @Html.ValidationMessageFor(model => model.KategoriId, "", new { @class = "text-danger" })
             </div>
         </div>
+         <div class="form-group">
+                <p>Etiketler </p>
+            <div class="col-md-10">
+                @Html.TextArea("etiketler")
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

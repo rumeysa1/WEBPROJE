@@ -1,42 +1,47 @@
-﻿@model WEBPROJE.Models.Makale
+﻿@model WEBPROJE.ViewModels.SonAtilanMakaleViewModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-danger text-center">@Model.Baslik</h2>
+<h2 class="text-danger text-center">@Model.Makalem.Baslik</h2>
 
 <div>
-    <h4>@Model.Kullanici.KullaniciAdi</h4>
+    <h4>@Model.Makalem.Kullanici.KullaniciAdi</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Kategori.KategoriAd)
+            @Html.DisplayNameFor(model => model.Makalem.Kategori.KategoriAd)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Kategori.KategoriAd)
+            @Html.DisplayFor(model => model.Makalem.Kategori.KategoriAd)
         </dd>
 
 
         <dt>
-            @Html.DisplayNameFor(model => model.İcerik)
+            @Html.DisplayNameFor(model => model.Makalem.İcerik)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.İcerik)
+            @Html.DisplayFor(model => model.Makalem.İcerik)
         </dd>
 
 
 
     </dl>
 </div>
-@if (Model.Kullanici.KullaniciAdi == Session["username"].ToString())
+@if (Model.Makalem.Kullanici.KullaniciAdi == Session["username"].ToString())
 {
+    <h5>Etiketler</h5>
+    foreach(var i in Model.Makalem.Etikets.ToList())
+    {
+        <p>@i.EtiletAd</p>
+    }
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-        @Html.ActionLink("Etiket Ekle", "Edit", new { id = Model.id })
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Makalem.id }) |
+        @Html.ActionLink("Etiket Ekle", "Edit", new { id = Model.Makalem.id })
     </p>
 
 }
@@ -45,7 +50,18 @@
     <br />
     <button type="button" class="btn btn-info"id="YorumYap">Yorum Yap</button>
 </div>
-@Html.Partial("YorumListele", Model.Yorums.ToList())
+@Html.Partial("YorumListele", Model.Makalem.Yorums.ToList());
+<div class="container">
+    @foreach(var i in Model.SonMakaleler)
+    {
+        <div class="col-md-2">
+            <h2 class="text-center text-primary">@i.Baslik</h2>
+            <p>@i.Kategori.KategoriAd</p>
+            <p>@i.Kullanici.KullaniciAdi</p>
+        </div>
+    }
+
+</div>
 
 @section scripts{
     <script type="text/javascript">
@@ -54,7 +70,7 @@
                 var yorumunuz = $("#yorum").val();
                 S.ajax({
                     url: '/Makale/YorumYap/',
-                    data: { yorum: yorumunuz, MakaleId:@Model.id},
+                    data: { yorum: yorumunuz, MakaleId:@Model.Makalem.id},
                     type: 'POST',
                     dataType: 'json',
                     success: function (data) {
