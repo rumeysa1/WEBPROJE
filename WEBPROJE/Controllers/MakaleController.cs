@@ -137,7 +137,7 @@ namespace WEBPROJE.Controllers
                 var kullaniciadi = Session["username"].ToString();
                 var kullanici = db.Kullanicis.Where(i => i.KullaniciAdi == kullaniciadi).SingleOrDefault();
                 var makale = db.Makales.Where(i => i.id == id).SingleOrDefault();
-                if (kullanici.id==makale.KullaniciId)
+                if (kullanici.id== makale.KullaniciId)
                 {
                     foreach(var i in makale.Yorums.ToList())
                     {
@@ -193,7 +193,7 @@ namespace WEBPROJE.Controllers
                 {
                     db.Yorums.Remove(yorum);
                     db.SaveChanges();
-                    return RedirectToAction("Detail", "Yetkili", new { id = yorum.MakaleId });
+                    return RedirectToAction("Detail", "Makale", new { id = yorum.MakaleId });
 
                 }
                 return RedirectToAction("Hata", "Yetkili", new { yazilacak = "Yorum Silinemedi!" });
